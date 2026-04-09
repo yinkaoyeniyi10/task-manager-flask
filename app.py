@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
@@ -47,8 +47,15 @@ def update(id):
             return "There was an issue updating your task."
     else:
         return render_template('update.html', tasks=tasks)
+@app.route('/completed/<int:id>', methods=['GET', 'POST'])
+def completed(id):
+    if request.method == 'POST':
+        session['checkbox_state'] = 'checkbox1' in request.form
+    is_checked = session.get('checkbox_state', False)
+    return render_template('index.html', is_checked=is_checked)
+    
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True)
-#Completed function will be added soon!
+#IN PROGRESS
