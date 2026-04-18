@@ -13,13 +13,20 @@
         <tr>
             <th>Task</th>
             <th>Added</th>
+            <th>Due</th>
             <th>Actions</th>
-            <th>In Progress?</th>
         </tr>
         {% for task in tasks %}
             <tr>
                 <td>{{ task.content }}</td>
                 <td>{{ task.date_created.date() }}</td>
+                <td>
+                    {% if task.due_date %}
+                        {{ task.due_date.strftime ("%Y-%m-%d %H:%M")}}
+                    {% else %}
+                        No due date
+                    {% endif %}
+                </td>
                 <td>
                     <a href="/delete/{{task.id}}">Delete</a>
                     <br>
@@ -31,6 +38,8 @@
     {% endif %}
     <form action="/" method="POST">
         <input type="text" name="content" id="content">
+        <input type="date" name="due_date">
+        <input type="time" name="due_time">
         <input type="submit" value="Add Task"> 
     </form>
 </div>

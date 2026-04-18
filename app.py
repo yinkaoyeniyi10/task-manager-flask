@@ -10,13 +10,22 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
+    due_date = db.Column(db.DateTime, nullable=True)
     def __repr__(self):
         return f'<Task {self.id}>'
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
         task_content = request.form['content']
-        new_task = Todo(content=task_content)
+        date_str = request.form.get('due_date')
+        time_str = request.form.get('due_time')
+        due_datetime = None
+        if date_str and time_str:
+            due_datetime = datetime.strptime(
+                f"{date_str} {time_str}",
+                "%Y-%m-%d %H:%M"
+            )
+        new_task = Todo(content=task_content, due_date = due_datetime)
         try:
             db.session.add(new_task)
             db.session.commit()
