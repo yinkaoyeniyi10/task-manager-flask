@@ -1,5 +1,11 @@
-tasks = []
+'''from flask import Flask, render_template, request, redirect, url_for
+app = Flask(__name__)
+@app.route('/')
+def index():
+    print("Hello world")
+app.run(debug="True")'''
 #CREATES A TASK. Asks the user for a title and description, then prints that the task was created successfully
+tasks = []
 def create_tasks():
     title = input("Enter your Task Title: ")
     description = input("Enter Your Task Description: ")
